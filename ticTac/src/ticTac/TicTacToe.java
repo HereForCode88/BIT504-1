@@ -12,10 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+//hello world
 
 public class TicTacToe implements ActionListener{
-	//Hello World
+
 	Random random = new Random();
 	JFrame frame = new JFrame();
 	JPanel title_panel = new JPanel();
@@ -248,7 +248,7 @@ public class TicTacToe implements ActionListener{
 		for(int i = 0; i<9; i++) {
 			buttons[i].setEnabled(false);
 		}
-		textfeild.setText("X Wins");
+		textfeild.setText("X Wins want to play again");
 	}
 	public void oWins(int a, int b, int c) {
 		buttons[a].setBackground(Color.GREEN);
