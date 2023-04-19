@@ -23,6 +23,8 @@ public class TicTacToe implements ActionListener{
 	JLabel textfeild = new JLabel();
 	JButton[] buttons = new JButton[9];
 	boolean player1_turn;
+	ComputerPlayer computer = new ComputerPlayer();
+	boolean GameOver = false;
 	
 	
 	
@@ -46,6 +48,8 @@ public class TicTacToe implements ActionListener{
 		button_panel.setLayout(new GridLayout(3,3));
 		button_panel.setBackground(new Color(150,150,150));
 		
+		
+		
 		for(int i=0; i<9; i++) {
 			buttons[i]= new JButton();
 			button_panel.add(buttons[i]);
@@ -61,8 +65,10 @@ public class TicTacToe implements ActionListener{
 		
 		firstTurn();
 		
-		
 				}
+	
+	
+	
 	//@Override
 	public void actionPerformed(ActionEvent e) {
 	    for (int i = 0; i < 9; i++) {
@@ -74,26 +80,33 @@ public class TicTacToe implements ActionListener{
 	                    player1_turn = false;
 	                    textfeild.setText("O turn");
 	                    check();
-	                } else {
-	                    buttons[i].setForeground(new Color(0, 0, 255));
-	                    buttons[i].setText("O");
-	                    player1_turn = true;
-	                    textfeild.setText("X turn");
+	                } else  {
+	            		    int computerChoice = computer.takeTurn(buttons);
+	            		    buttons[computerChoice].setText("O");
+	            		    buttons[computerChoice].setForeground(new Color(0, 0, 255));
+	            		    player1_turn = true;
+	            		    textfeild.setText("X turn");
+	            		    check();
+	            		}
+	            		
+	                   
 	                
 	                check();
 	                }
+	            
 	            }
 	        }
 	    }
 	
 	
-	}
+	
+	
 
 
 		
 	public void firstTurn() {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(200);
 			
 		}catch(InterruptedException e) {
 	}
@@ -110,6 +123,8 @@ public class TicTacToe implements ActionListener{
 	}
 	
 	public void check() {
+		
+		
 		if(
 		(buttons[0].getText()=="X")&&
 		(buttons[1].getText()=="X")&&
@@ -206,6 +221,7 @@ public class TicTacToe implements ActionListener{
 						)
 						{
 							oWins(0,3,6);
+		
 						}
 				if(
 						(buttons[1].getText()=="O")&&
