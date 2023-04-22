@@ -69,8 +69,12 @@ public class TicTacToe implements ActionListener{
 	
 	
 	
-	//@Override
 	public void actionPerformed(ActionEvent e) {
+	    if (GameOver) {
+	        restartGame();
+	        return;
+	    }
+
 	    for (int i = 0; i < 9; i++) {
 	        if (e.getSource() == buttons[i]) {
 	            if (buttons[i].getText().equals("")) {
@@ -80,25 +84,31 @@ public class TicTacToe implements ActionListener{
 	                    player1_turn = false;
 	                    textfeild.setText("O turn");
 	                    check();
-	                } else  {
-	            		    int computerChoice = computer.takeTurn(buttons);
-	            		    buttons[computerChoice].setText("O");
-	            		    buttons[computerChoice].setForeground(new Color(0, 0, 255));
-	            		    player1_turn = true;
-	            		    textfeild.setText("X turn");
-	            		    check();
-	            		}
-	            		
-	                   
-	                
-	                check();
+	                } else {
+	                    int computerChoice = computer.takeTurn(buttons);
+	                    buttons[computerChoice].setText("O");
+	                    buttons[computerChoice].setForeground(new Color(0, 0, 255));
+	                    player1_turn = true;
+	                    textfeild.setText("X turn");
+	                    check();
 	                }
-	            
 	            }
 	        }
 	    }
-	
-	
+	}
+
+
+	private void restartGame() {
+	    for (int i = 0; i < 9; i++) {
+	        buttons[i].setText("");
+	        buttons[i].setBackground(Color.LIGHT_GRAY);
+	    }
+	  //player1_turn = true;
+	    //textfeild.setText("X turn");
+	    GameOver = false;
+	    firstTurn();
+	}
+
 	
 	
 
@@ -254,25 +264,47 @@ public class TicTacToe implements ActionListener{
 						)
 						{
 							oWins(2,4,6);
-						}}
-	}
+						}
+						}
+				// Check for draw
+			    boolean emptyButtonExists = false;
+			    for (int i = 0; i < buttons.length; i++) {
+			        if (buttons[i].getText().isEmpty()) {
+			            // If there is an empty button, the game is not a draw
+			            emptyButtonExists = true;
+			            break;
+			        }
+			    }
+			    if (!emptyButtonExists) {
+			        // If there are no empty buttons, the game is a draw
+			        draw();
+			        }
+			        }
+	
 	
 	public void xWins(int a, int b, int c) {
 		buttons[a].setBackground(Color.GREEN);
 		buttons[b].setBackground(Color.GREEN);
 		buttons[c].setBackground(Color.GREEN);
 		for(int i = 0; i<9; i++) {
-			buttons[i].setEnabled(false);
+			//buttons[i].setEnabled(false);
 		}
 		textfeild.setText("X Wins want to play again");
+		GameOver = true;
 	}
 	public void oWins(int a, int b, int c) {
 		buttons[a].setBackground(Color.GREEN);
 		buttons[b].setBackground(Color.GREEN);
 		buttons[c].setBackground(Color.GREEN);
 		for(int i=0; i<9;i++) {
-			buttons[i].setEnabled(false);
+			//buttons[i].setEnabled(false);
 		}
 		textfeild.setText("O Wins");
+		GameOver = true;
 	}
+	public void draw() {
+		
+		GameOver = true;
+		textfeild.setText("Draw");
+		}
 }

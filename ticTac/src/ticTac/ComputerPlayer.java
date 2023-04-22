@@ -7,36 +7,49 @@ public class ComputerPlayer {
     private final int PLAYER = 1;
     private final int COMPUTER = 2;
 
-    public int takeTurn(JButton[] buttons) {
-    	
-    	// Check if there is a winning move available
-        for (int i = 0; i < buttons.length; i++) {
-            if (buttons[i].getText().isEmpty()) {
-                buttons[i].setText("O");
-                int result = checkWinner(buttons);
-                buttons[i].setText("");
-                if (result == COMPUTER) {
-                    return i;
-                }
-            }
-        }
-    	
-    	
-        int bestMove = -1;
-        int bestScore = Integer.MIN_VALUE;
-        for (int i = 0; i < buttons.length; i++) {
-            if (buttons[i].getText().isEmpty()) {
-                buttons[i].setText("O");
-                int score = miniMax(buttons, 0, false);
-                buttons[i].setText("");
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMove = i;
-                }
-            }
-        }
-        return bestMove;
-    }
+    
+    	public int takeTurn(JButton[] buttons) {
+    	    // Check if there is a winning move available
+    	    for (int i = 0; i < buttons.length; i++) {
+    	        if (buttons[i].getText().isEmpty()) {
+    	            buttons[i].setText("O");
+    	            int result = checkWinner(buttons);
+    	            buttons[i].setText("");
+    	            if (result == COMPUTER) {
+    	                return i;
+    	            }
+    	        }
+    	    }
+
+    	    // Check if the human can win next turn and block them
+    	    for (int i = 0; i < buttons.length; i++) {
+    	        if (buttons[i].getText().isEmpty()) {
+    	            buttons[i].setText("X");
+    	            int result = checkWinner(buttons);
+    	            buttons[i].setText("");
+    	            if (result == PLAYER) {
+    	                return i;
+    	            }
+    	        }
+    	    }
+
+    	    // Rate the moves and choose the best one
+    	    int bestMove = -1;
+    	    int bestScore = Integer.MIN_VALUE;
+    	    for (int i = 0; i < buttons.length; i++) {
+    	        if (buttons[i].getText().isEmpty()) {
+    	            buttons[i].setText("O");
+    	            int score = miniMax(buttons, 3, false);
+    	            buttons[i].setText("");
+    	            if (score > bestScore) {
+    	                bestScore = score;
+    	                bestMove = i;
+    	            }
+    	        }
+    	    }
+    	    return bestMove;
+    	}
+
 
     private int miniMax(JButton[] buttons, int depth, boolean isMaximizing) {
         int result = checkWinner(buttons);
